@@ -1,14 +1,17 @@
+server:
+  port: 9090
 spring:
   application:
     name: authentication
   datasource:
-    url:
-    driverClassName:
-    username:
-    password:
+    platform: postgres
+    url: jdbc:postgresql://192.168.0.105:54321/users-db
+    driverClassName: org.postgresql.Driver
+    username: admin
+    password: srvadmin
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
