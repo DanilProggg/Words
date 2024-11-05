@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: srvadmin
       POSTGRES_DB: users-db
     ports:
-      - "54321:5432"  # Внешний порт можно изменить для каждого контейнера, чтобы избежать конфликтов
+      - "54321:5432"
     volumes:
       - /home/srvadmin/users-db:/var/lib/postgresql/data
 
@@ -21,7 +21,7 @@ services:
       POSTGRES_PASSWORD: srvadmin
       POSTGRES_DB: memorization
     ports:
-      - "54322:5432"  # Внешний порт можно изменить для каждого контейнера, чтобы избежать конфликтов
+      - "54322:5432"
     volumes:
       - /home/srvadmin/memorization:/var/lib/postgresql/data
 

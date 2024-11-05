@@ -12,9 +12,9 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
-@Setter
-@NoArgsConstructor
+@Setter@NoArgsConstructor
 @AllArgsConstructor
+
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
