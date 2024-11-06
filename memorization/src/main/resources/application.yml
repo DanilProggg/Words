@@ -9,6 +9,11 @@ spring:
     driverClassName: org.postgresql.Driver
     username: admin
     password: srvadmin
+    hikari: #Настройка пула
+      maximum-pool-size: 10
+      connection-timeout: 2000
+      idle-timeout: 600000
+      pool-name: HikariCP
   jpa:
     hibernate:
       ddl-auto: update

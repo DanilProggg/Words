@@ -1,67 +1,30 @@
 package com.word.memorization.components;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${token.signing.key}")
-    String jwtSigningKey;
-
 
     /**
      *
-     * @param token
      * Получение всех данных из токена
      *
      * @return claims
      */
-    public Claims getClaims(String token) {
-        return Jwts
-                .parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+
+    public Map<String, Object> getClaims() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            return jwt.getClaims();
+        }
+        throw new IllegalStateException("Authentication is not of type Jwt");
     }
 
-    /**
-     *
-     * @param token
-     * Получение имени пользователя
-     *
-     * @return имя пользователя
-     */
-    public String getUsername(String token) {
-        return getClaims(token).getSubject();
-    }
-
-    /**
-     *
-     * @param token
-     * Получение списка ролей
-     *
-     * @return List<роли>
-     */
-    public List<String> getRoles(String token) {
-        return getClaims(token).get("roles", List.class);
-    }
-
-    /**
-     * Получение ключа для подписи токена
-     *
-     * @return ключ
-     */
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSigningKey.getBytes(StandardCharsets.UTF_8));
-    }
 }
 
