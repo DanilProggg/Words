@@ -3,11 +3,11 @@ package com.word.memorization.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Слово уже существует в базе данных")
+@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Word already added")
 public class WordAlreadyExistsException extends RuntimeException {
 
     public WordAlreadyExistsException() {
-        super("Слово уже существует в базе данных");
+        super("Word already added");
     }
 
     public WordAlreadyExistsException(String message) {

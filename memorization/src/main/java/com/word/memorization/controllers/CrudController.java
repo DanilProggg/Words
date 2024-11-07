@@ -3,6 +3,7 @@ package com.word.memorization.controllers;
 import com.word.memorization.components.JwtTokenProvider;
 import com.word.memorization.dtos.JsonResponse;
 import com.word.memorization.dtos.WordDto;
+import com.word.memorization.entities.Word;
 import com.word.memorization.exceptions.WordAlreadyExistsException;
 import com.word.memorization.services.CrudServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/crud")
@@ -26,7 +29,7 @@ public class CrudController {
 
 
     @PostMapping("/add")
-    @Operation(summary = "Добавить слово")
+    @Operation(summary = "Add word")
     public ResponseEntity<?> addWord(@RequestBody @Valid WordDto wordDto){
         try{
 
@@ -59,6 +62,16 @@ public class CrudController {
                     )
             );
 
+        }
+    }
+    @PostMapping("/get/{page}")
+    @Operation(description = "Get page with words")
+    public ResponseEntity<?> getWords(@PathVariable int page){
+        try {
+            List<Word> list = crudService.getWords(page, jwtTokenProvider.getClaims());
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 }
